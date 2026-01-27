@@ -1,0 +1,10 @@
+# Example video URLs file
+# One URL per line, comments start with #
+# Supports YouTube, Vimeo, and 1000+ other platforms
+
+https://youtu.be/-Ub6AD3iTXE
+https://youtu.be/15d1-FZJKP4
+https://youtu.be/2pIIPXPopzc
+# Add more URLs from any supported platform:
+# https://vimeo.com/VIDEO_ID
+# https://www.dailymotion.com/video/VIDEO_ID
