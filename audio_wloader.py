@@ -16,6 +16,16 @@ from urllib.parse import urlparse
 import yt_dlp
 
 
+YDL_EXTRACTOR_ARGS = {
+    # Avoid YouTube TV clients which can trigger DRM-protected formats.
+    # Prefer the standard web/iOS clients.
+    "youtube": {
+        # Android client tends to expose at least one non-DRM format reliably.
+        "player_client": ["android"],
+    }
+}
+
+
 def is_video_url(url: str) -> bool:
     """Check if URL looks like a video URL."""
     # Basic URL validation
@@ -82,6 +92,7 @@ def get_video_info(url: str, verbose: bool = False) -> Optional[dict]:
     ydl_opts = {
         'quiet': not verbose,
         'no_warnings': not verbose,
+        'extractor_args': YDL_EXTRACTOR_ARGS,
     }
     
     try:
@@ -121,7 +132,9 @@ def download_audio(url: str, output_dir: Path, use_title: bool = False, verbose:
     
     # Configure yt-dlp options
     ydl_opts = {
-        'format': 'bestaudio/best',
+        # Prefer any format that definitely has audio, then extract to WAV via ffmpeg.
+        # (Some "bestaudio" formats can require tokens and may be unavailable.)
+        'format': 'best[acodec!=none]/best',
         'outtmpl': str(output_dir / '%(id)s.%(ext)s'),
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
@@ -130,6 +143,7 @@ def download_audio(url: str, output_dir: Path, use_title: bool = False, verbose:
         }],
         'quiet': not verbose,
         'no_warnings': not verbose,
+        'extractor_args': YDL_EXTRACTOR_ARGS,
     }
     
     try:

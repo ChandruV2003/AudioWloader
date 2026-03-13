@@ -37,8 +37,11 @@ Run `python audio_wloader.py --list-sites` to see more examples.
 # Clone or navigate to the project
 cd AudioWloader
 
+# Recommended: use the shared RandomIdeasCo venv
+source ../.venv/bin/activate
+
 # Install Python dependencies
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 # Ensure ffmpeg is installed
 # macOS: brew install ffmpeg
@@ -51,6 +54,14 @@ pip install -r requirements.txt
 ### From a text file (one URL per line):
 ```bash
 python audio_wloader.py --input urls.txt --output ./audio_files
+```
+
+## DS685 pipeline (download → transcribe)
+If you’re using this repo together with `../MPtoText/`, you can run the DS685 helper:
+
+```bash
+source ../.venv/bin/activate
+python scripts/ds685_download_and_transcribe.py --help
 ```
 
 ### From a JSON file:
